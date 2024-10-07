@@ -42,6 +42,8 @@ public class WordTrie {
                         node = child;
                     }
                 }
+                
+                childIterator = node.getChildren().listIterator();
             }
         }
         
@@ -50,7 +52,6 @@ public class WordTrie {
     
     //
     private TrieNode buildTrie() {
-        ListIterator<String> wordIterator = Arrays.asList(validWords).listIterator();
         Queue<TrieNode> nodeQueue = new LinkedList<>();
         TrieNode root = new TrieNode('\0', "");
         nodeQueue.add(root);
@@ -59,17 +60,18 @@ public class WordTrie {
         while (!nodeQueue.isEmpty()) {
             TrieNode node = nodeQueue.remove();
             String substring = node.getSubstring();
+            ListIterator<String> wordIterator = Arrays.asList(validWords).listIterator();
             ArrayList<Character> potentialChildren = new ArrayList<>();
             alphabet.chars().mapToObj(c -> (char) c).forEach(potentialChildren::add);
             
             while (wordIterator.hasNext() && !potentialChildren.isEmpty()) {
                 String word = wordIterator.next();
                 
-                if (word.startsWith(substring)) {
+                if (word.startsWith(substring) && word.length() > substring.length()) {
                     char letter = word.charAt(substring.length());
                     
                     if (potentialChildren.contains(letter)) {
-                        potentialChildren.remove(letter);
+                        potentialChildren.remove(potentialChildren.indexOf(letter));
                         TrieNode child = new TrieNode(letter, substring + letter);
                         node.addChild(child);
                         nodeQueue.add(child);
