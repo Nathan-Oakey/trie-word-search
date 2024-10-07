@@ -2,13 +2,13 @@ import java.util.ArrayList;
 
 public class TrieNode {
     private final char label;
-    private final TrieNode parent;
+    private final String substring;
     private final ArrayList<TrieNode> children;
     
     
-    public TrieNode(char label, TrieNode parent) {
+    public TrieNode(char label, String substring) {
         this.label = label;
-        this.parent = parent;
+        this.substring = substring;
         this.children = new ArrayList<>();
     }
 
@@ -16,9 +16,9 @@ public class TrieNode {
     public char getLabel() {
         return label;
     }
-
-    public TrieNode getParent() {
-        return parent;
+    
+    public String getSubstring() {
+        return substring;
     }
 
     public ArrayList<TrieNode> getChildren() {
